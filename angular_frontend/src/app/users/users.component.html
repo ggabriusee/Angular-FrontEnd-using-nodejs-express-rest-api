@@ -1,0 +1,50 @@
+<!-- Two main buttons-->
+<div class="row">
+    <div class="col-md-5">
+        <h2>{{tittle}}</h2>
+        <button class="btn btn-warning" (click)="showView()">View Users</button>
+        <button class="btn btn-warning" (click)="showCreate()">New User</button>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Listing of users-->
+    <div *ngIf="viewUsers" class="col-md-5">  
+        <h2>User List</h2>
+        <ol class="list-group">
+        <li class="list-group-item"
+            *ngFor="let userObj of userArray"
+            (click)="selectUser(userObj)"
+            [class.active]="userObj === currentUser"> <!--selects in blue-->
+        {{userObj.name}}
+        </li>
+        </ol>
+    </div>
+    
+    <div class="col-md-5">
+        <!-- Apropriate header -->
+        <div *ngIf="currentUser" class="row">
+            <div class="col-md-12">
+                <h2 *ngIf="currentUser._id">User Info</h2>
+                <h2 *ngIf="!currentUser._id">New User</h2>
+            </div>
+        </div>
+
+        <!-- User create, update, delete form -->
+        <div *ngIf="currentUser" class="row">
+        <form class="col-md-12">
+            <div class="form-group">
+            <label for="user-name">Name</label>
+            <input class="form-control" name="user-name" [(ngModel)]="currentUser.name" placeholder="Name"/>
+            </div>
+            <div class="form-group">
+            <label for="user-email">Email</label>
+            <input class="form-control" name="user-email" [(ngModel)]="currentUser.email" placeholder="support@mlab.com"/>
+            </div>
+            <button class="btn btn-primary" *ngIf="!currentUser._id" (click)="createUser(currentUser)">Create</button>
+            <button class="btn btn-info" *ngIf="currentUser._id" (click)="updateUser(currentUser)">Update</button>
+            <button class="btn btn-danger" type="button" *ngIf="currentUser._id" (click)="deleteUser(currentUser._id)">Delete</button>
+        </form>
+        </div>
+    </div>
+</div>
